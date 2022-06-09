@@ -14,8 +14,10 @@ export class CoursesService {
     return this.prisma.courses.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} course`;
+  async findOne(id: number) {
+    return await this.prisma.courses.findUnique({
+      where: { externalCode: id },
+    });
   }
 
   async update(id: number, data: Prisma.CoursesUpdateInput) {

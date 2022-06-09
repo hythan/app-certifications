@@ -14,8 +14,10 @@ export class StudentsService {
     return this.prisma.students.findMany();
   }
 
-  async findBy(params: { where: Prisma.StudentsWhereUniqueInput }) {
-    return this.prisma.students.findUnique(params);
+  async findOne(id: number) {
+    return await this.prisma.students.findUnique({
+      where: { externalCode: id },
+    });
   }
 
   async update(id: number, data: Prisma.StudentsUpdateInput) {
