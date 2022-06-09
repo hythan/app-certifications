@@ -11,9 +11,32 @@ datasource db {
 }
 
 model Students {
-  id       Int      @id @default(autoincrement())
-  name     String
-  cpf      String   @unique
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  id             Int              @id @default(autoincrement())
+  externalCode   Int              @unique
+  name           String
+  cpf            String           @unique
+  certifications Certifications[]
+  createAt       DateTime         @default(now())
+  updateAt       DateTime         @updatedAt
+}
+
+model Courses {
+  id             Int              @id @default(autoincrement())
+  externalCode   Int              @unique
+  name           String
+  duration       Int
+  certifications Certifications[]
+  createAt       DateTime         @default(now())
+  updateAt       DateTime         @updatedAt
+}
+
+model Certifications {
+  id           Int      @id @default(autoincrement())
+  externalCode Int      @unique
+  course       Courses  @relation(fields: [courseId], references: [id])
+  courseId     Int
+  student      Students @relation(fields: [studentId], references: [id])
+  studentId    Int
+  createAt     DateTime @default(now())
+  updateAt     DateTime @updatedAt
 }

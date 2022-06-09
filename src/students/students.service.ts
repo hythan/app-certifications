@@ -7,14 +7,7 @@ export class StudentsService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.StudentsCreateInput) {
-    const { name, cpf, createAt, updateAt } = data;
-    const _data = {
-      name: name,
-      cpf: cpf,
-      createAt: createAt,
-      updateAt: updateAt,
-    };
-    return await this.prisma.students.create({ data: _data });
+    return await this.prisma.students.create({ data });
   }
 
   all() {
@@ -26,10 +19,22 @@ export class StudentsService {
   }
 
   async update(id: number, data: Prisma.StudentsUpdateInput) {
-    return await this.prisma.students.update({ where: { id }, data });
+    return await this.prisma.students.update({
+      where: { externalCode: id },
+      data,
+    });
   }
 
   async remove(id: number) {
-    return this.prisma.students.delete({ where: { id } });
+    return this.prisma.students.delete({ where: { externalCode: id } });
+  }
+
+  _prepareData(data) {
+    const { id, name, cpf } = data;
+    return {
+      name: name,
+      externalCode: id,
+      cpf: cpf,
+    };
   }
 }
