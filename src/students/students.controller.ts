@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Ctx, EventPattern, Payload, RmqContext } from '@nestjs/microservices';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { Prisma } from '@prisma/client';
 import { StudentsService } from './students.service';
 
@@ -15,9 +15,11 @@ import { StudentsService } from './students.service';
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
-  @EventPattern('find-all-students')
-  async findAll(@Payload() data: number[], @Ctx() context: RmqContext) {
-    console.log(await this.studentsService.all());
+  @EventPattern('all-certifications-students')
+  async findAll() {
+    console.log('ENTROU NO DO CERTIFICATIONS');
+
+    // return await this.studentsService.all();
     // return this.studentsService.all();
   }
 

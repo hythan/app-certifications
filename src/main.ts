@@ -9,7 +9,7 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: ['amqp://admin:admin@rabbitmq:5672'],
-        queue: 'main_queue',
+        queue: 'certifications_queue',
         queueOptions: {
           durable: false,
         },
