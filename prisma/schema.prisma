@@ -12,7 +12,7 @@ datasource db {
 
 model Students {
   id             Int              @id @default(autoincrement())
-  externalCode   Int              @unique
+  externalCode   Int?             @unique
   name           String
   cpf            String           @unique
   certifications Certifications[]
@@ -22,7 +22,7 @@ model Students {
 
 model Courses {
   id             Int              @id @default(autoincrement())
-  externalCode   Int              @unique
+  externalCode   Int?             @unique
   name           String
   duration       Int
   certifications Certifications[]
@@ -32,7 +32,7 @@ model Courses {
 
 model Certifications {
   id           Int      @id @default(autoincrement())
-  externalCode Int      @unique
+  externalCode Int?      @unique
   course       Courses  @relation(fields: [courseId], references: [id])
   courseId     Int
   student      Students @relation(fields: [studentId], references: [id])
