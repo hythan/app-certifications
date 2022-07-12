@@ -26,6 +26,17 @@ async function bootstrap() {
     },
   });
 
+  app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://admin:admin@rabbitmq:5672'],
+      queue: 'certifications_queue',
+      queueOptions: {
+        durable: false,
+      },
+    },
+  });
+
   app.startAllMicroservices();
 }
 bootstrap();

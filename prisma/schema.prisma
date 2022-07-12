@@ -32,11 +32,12 @@ model Courses {
 
 model Certifications {
   id           Int      @id @default(autoincrement())
-  externalCode Int?      @unique
+  externalCode Int?     @unique
   course       Courses  @relation(fields: [courseId], references: [id])
   courseId     Int
   student      Students @relation(fields: [studentId], references: [id])
   studentId    Int
+  teacherName  String
   createAt     DateTime @default(now())
   updateAt     DateTime @updatedAt
 }
