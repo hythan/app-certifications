@@ -2,25 +2,22 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CoursesService } from './courses.service';
 
-@Controller('courses')
+@Controller()
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
   @MessagePattern('create-certifications-course')
-  create(@Payload() data: any) {
-    return this.coursesService.create(this.coursesService._prepareData(data));
+  create(@Payload() payload: any) {
+    return this.coursesService.create(
+      this.coursesService._prepareData(payload),
+    );
   }
 
-  @MessagePattern('all-certifications-courses')
+  @MessagePattern('find-all-certifications-courses')
   async findAll() {
     console.log(await this.coursesService.findAll());
-    // return this.coursesService.findAll();
+    return true;
   }
-
-  // @MessagePattern('')
-  // findOne(@Param('id') id: string) {
-  //   return this.coursesService.findOne(+id);
-  // }
 
   @MessagePattern('update-certifications-course')
   update(@Payload() data: any) {
