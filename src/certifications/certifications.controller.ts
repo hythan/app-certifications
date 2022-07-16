@@ -1,20 +1,20 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CertificationsService } from './certifications.service';
 
-@Controller('certifications')
+@Controller()
 export class CertificationsController {
   constructor(private readonly certificationsService: CertificationsService) {}
 
-  // @EventPattern('create-or-update-certification')
-  // async createOrUpdate(@Payload() payload: any) {
-  //   return await this.certificationsService.createOrUpdate(payload.data);
-  // }
+  @MessagePattern('create-certification')
+  async createOrUpdate(@Payload() payload: any) {
+    return await this.certificationsService.create(payload.data);
+  }
 
-  // @EventPattern('all-certification')
-  // async findAll() {
-  //   console.log(await this.certificationsService.findAll());
-  // }
+  @MessagePattern('find-all-certifications')
+  async findAll() {
+    return await this.certificationsService.findAll();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
@@ -34,8 +34,8 @@ export class CertificationsController {
   //   return this.certificationsService.remove(+id);
   // }
 
-  @MessagePattern('generate-certifications')
-  async generateCertifications(@Payload() payload: any) {
-    return await this.certificationsService.generateCertifications(payload);
-  }
+  // @MessagePattern('generate-certifications')
+  // async generateCertifications(@Payload() payload: any) {
+  //   return await this.certificationsService.generateCertifications(payload);
+  // }
 }

@@ -11,13 +11,14 @@ export class CertificationsService {
     private readonly coursesService: CoursesService,
     private readonly studentsService: StudentsService,
   ) {}
-  // async create(data: Prisma.CertificationsCreateInput) {
-  //   return this.prisma.certifications.create({ data });
-  // }
 
-  // findAll() {
-  //   return this.prisma.certifications.findMany();
-  // }
+  async create(data: Prisma.CertificationsCreateInput) {
+    return await this.prisma.certifications.create({ data });
+  }
+
+  async findAll() {
+    return await this.prisma.certifications.findMany();
+  }
 
   // async findOne(id: number) {
   //   return await this.prisma.certifications.findUnique({
@@ -57,10 +58,10 @@ export class CertificationsService {
   //   return this.create(_data);
   // }
 
-  async generateCertifications(payload) {
-    // return this.prisma.certifications.createMany({
-    //   where: { externalCode: payload.ids },
-    //   data: { }
-    // });
-  }
+  // async generateCertifications(payload) {
+  //   return this.prisma.certifications.createMany({
+  //     where: { externalCode: payload.ids },
+  //     data: { }
+  //   });
+  // }
 }
