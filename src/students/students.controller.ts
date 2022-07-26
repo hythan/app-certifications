@@ -8,7 +8,8 @@ export class StudentsController {
 
   @MessagePattern('all-certifications-students')
   async findAll() {
-    return await this.studentsService.all();
+    console.log(await this.studentsService.all());
+    return true;
   }
 
   @MessagePattern('create-certifications-student')

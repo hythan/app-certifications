@@ -1,14 +1,24 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CertificationsService } from './certifications.service';
+import { StudentsService } from '../students/students.service';
 
 @Controller()
 export class CertificationsController {
-  constructor(private readonly certificationsService: CertificationsService) {}
+  constructor(
+    private readonly certificationsService: CertificationsService,
+    private readonly studentService: StudentsService,
+  ) {}
 
   @MessagePattern('create-certification')
   async createOrUpdate(@Payload() payload: any) {
-    return await this.certificationsService.create(payload.data);
+    const data = {
+      student: { connect: { externalCode: payload.data.studentId } },
+      course: { connect: { externalCode: payload.data.courseId } },
+      teacherName: payload.data.teacherName,
+    };
+
+    return await this.certificationsService.create(data);
   }
 
   @MessagePattern('find-all-certifications')
@@ -16,26 +26,18 @@ export class CertificationsController {
     return await this.certificationsService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.certificationsService.findOne(+id);
-  // }
+  @MessagePattern('find-certification')
+  async findOne(@Payload() payload: any) {
+    return await this.certificationsService.findOne(payload.id);
+  }
 
-  // // @EventPattern('update-certification')
-  // // async update(@Payload() payload: any) {
-  // //   return this.certificationsService.update(
-  // //     +payload.id,
-  // //     await this.certificationsService._prepareData(payload.data),
-  // //   );
-  // // }
+  @MessagePattern('update-certification')
+  async update(@Payload() payload: any) {
+    return await this.certificationsService.update(payload.id, payload.data);
+  }
 
-  // @EventPattern('delete-certification')
-  // remove(@Payload() id: any) {
-  //   return this.certificationsService.remove(+id);
-  // }
-
-  // @MessagePattern('generate-certifications')
-  // async generateCertifications(@Payload() payload: any) {
-  //   return await this.certificationsService.generateCertifications(payload);
-  // }
+  @MessagePattern('delete-certification')
+  remove(@Payload() payload: any) {
+    return this.certificationsService.remove(+payload.id);
+  }
 }
