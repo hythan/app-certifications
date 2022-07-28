@@ -31,12 +31,11 @@ export class CoursesService {
     return await this.prisma.courses.delete({ where: { externalCode: id } });
   }
 
-  _prepareData(data) {
-    const { id, name, duration } = data;
+  _prepareData(payload) {
     return {
-      externalCode: id,
-      name: name,
-      duration: duration,
+      externalCode: payload.id,
+      name: payload.data.name,
+      duration: payload.data.duration,
     };
   }
 }

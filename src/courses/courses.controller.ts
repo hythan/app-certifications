@@ -1,36 +1,25 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CoursesService } from './courses.service';
 
-@Controller('courses')
+@Controller()
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
-  @EventPattern('create-course')
-  create(@Payload() data: any) {
-    return this.coursesService.create(this.coursesService._prepareData(data));
+  @MessagePattern('create-certifications-course')
+  create(@Payload() payload: any) {
+    return this.coursesService.create(
+      this.coursesService._prepareData(payload),
+    );
   }
 
-  @EventPattern('all-course')
+  @MessagePattern('find-all-certifications-courses')
   async findAll() {
     console.log(await this.coursesService.findAll());
-    // return this.coursesService.findAll();
+    return true;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.coursesService.findOne(+id);
-  }
-
-  @EventPattern('update-course')
+  @MessagePattern('update-certifications-course')
   update(@Payload() data: any) {
     return this.coursesService.update(
       +data.id,
@@ -38,7 +27,7 @@ export class CoursesController {
     );
   }
 
-  @EventPattern('delete-course')
+  @MessagePattern('delete-certifications-course')
   remove(@Payload() id: any) {
     return this.coursesService.remove(+id);
   }
