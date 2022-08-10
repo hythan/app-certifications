@@ -1,16 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { CoursesService } from 'src/courses/courses.service';
 import { PrismaService } from 'src/prisma.service';
-import { StudentsService } from 'src/students/students.service';
 
 @Injectable()
 export class CertificationsService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly coursesService: CoursesService,
-    private readonly studentsService: StudentsService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.CertificationsCreateInput) {
     return await this.prisma.certifications.create({ data });
