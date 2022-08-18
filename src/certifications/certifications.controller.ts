@@ -1,13 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CertificationsService } from './certifications.service';
-import { StudentsService } from '../students/students.service';
 
 @Controller()
 export class CertificationsController {
   constructor(
     private readonly certificationsService: CertificationsService,
-    private readonly studentService: StudentsService,
   ) {}
 
   @MessagePattern('create-certification')
