@@ -27,7 +27,7 @@ export class CoursesController {
     );
   }
 
-  @MessagePattern('delete-certifications-course')
+  @MessagePattern('remove-certifications-course')
   remove(@Payload() id: any) {
     return this.coursesService.remove(+id);
   }
