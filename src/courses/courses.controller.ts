@@ -15,7 +15,6 @@ export class CoursesController {
 
   @MessagePattern('find-all-certifications-courses')
   async findAll() {
-    console.log(await this.coursesService.findAll());
     return true;
   }
 
@@ -23,7 +22,7 @@ export class CoursesController {
   update(@Payload() data: any) {
     return this.coursesService.update(
       +data.id,
-      this.coursesService._prepareData(data.data),
+      this.coursesService._prepareData(data),
     );
   }
 
