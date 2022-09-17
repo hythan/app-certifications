@@ -28,6 +28,6 @@ export class CoursesController {
 
   @MessagePattern('remove-certifications-course')
   remove(@Payload() id: any) {
-    return this.coursesService.remove(+id);
+    return this.coursesService.remove(+id.id);
   }
 }
