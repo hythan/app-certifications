@@ -10,6 +10,13 @@ export class CertificationsService {
     return await this.prisma.certifications.create({ data });
   }
 
+  async massCreate(data: Array<Prisma.CertificationsCreateManyInput>) {
+    return await this.prisma.certifications.createMany({
+      data,
+      skipDuplicates: true,
+    });
+  }
+
   async findAll() {
     return await this.prisma.certifications.findMany({
       include: { student: true, course: true },
@@ -33,5 +40,26 @@ export class CertificationsService {
     return await this.prisma.certifications.delete({
       where: { id },
     });
+  }
+
+  _prepareData(payload) {
+    return {
+      student: { connect: { externalCode: payload.data.studentId } },
+      course: { connect: { externalCode: payload.data.courseId } },
+      teacherName: payload.data.teacherName,
+    };
+  }
+
+  _prepareMassData(payload) {
+    const data = Array<Prisma.CertificationsCreateManyInput>();
+    payload.forEach((element) => {
+      data.push({
+        studentId: element.studentId,
+        courseId: element.courseId,
+        teacherName: element.teacherName,
+      });
+    });
+
+    return data;
   }
 }

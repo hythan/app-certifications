@@ -4,19 +4,21 @@ import { CertificationsService } from './certifications.service';
 
 @Controller()
 export class CertificationsController {
-  constructor(
-    private readonly certificationsService: CertificationsService,
-  ) {}
+  constructor(private readonly certificationsService: CertificationsService) {}
 
   @MessagePattern('create-certification')
   async createOrUpdate(@Payload() payload: any) {
-    const data = {
-      student: { connect: { externalCode: payload.data.studentId } },
-      course: { connect: { externalCode: payload.data.courseId } },
-      teacherName: payload.data.teacherName,
-    };
+    if (payload.data.certificationsList) {
+      return await this.certificationsService.massCreate(
+        this.certificationsService._prepareMassData(
+          payload.data.certificationsList,
+        ),
+      );
+    }
 
-    return await this.certificationsService.create(data);
+    return await this.certificationsService.create(
+      this.certificationsService._prepareData(payload),
+    );
   }
 
   @MessagePattern('find-all-certifications')
