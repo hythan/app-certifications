@@ -7,6 +7,19 @@ export class CertificationsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.CertificationsCreateInput) {
+    const exists = await this.prisma.certifications.count({
+      where: {
+        studentId: data.student.connect.externalCode,
+        AND: {
+          courseId: data.course.connect.externalCode,
+        },
+      },
+    });
+
+    if (exists > 0) {
+      return { status: 304, statusText: 'The record already exists' };
+    }
+
     return await this.prisma.certifications.create({ data });
   }
 
