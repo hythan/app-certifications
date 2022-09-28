@@ -8,16 +8,10 @@ export class CertificationsController {
 
   @MessagePattern('create-certification')
   async createOrUpdate(@Payload() payload: any) {
-    if (payload.data.certificationsList) {
-      return await this.certificationsService.massCreate(
-        this.certificationsService._prepareMassData(
-          payload.data.certificationsList,
-        ),
-      );
-    }
-
-    return await this.certificationsService.create(
-      this.certificationsService._prepareData(payload),
+    return await this.certificationsService.massCreate(
+      this.certificationsService._prepareMassData(
+        payload.data.certificationsList,
+      ),
     );
   }
 
@@ -36,7 +30,7 @@ export class CertificationsController {
     return await this.certificationsService.update(payload.id, payload.data);
   }
 
-  @MessagePattern('delete-certification')
+  @MessagePattern('remove-certifications')
   remove(@Payload() payload: any) {
     return this.certificationsService.remove(+payload.id);
   }
