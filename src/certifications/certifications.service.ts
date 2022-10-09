@@ -4,7 +4,7 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class CertificationsService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.CertificationsCreateInput) {
     const exists = await this.prisma.certifications.count({
@@ -50,8 +50,23 @@ export class CertificationsService {
     return { status: 200, message: 'The certifications successfuly created.' };
   }
 
-  async findAll() {
+  async findAll(courseAndStudentsIds?: any) {
+    if (
+      Object.keys(courseAndStudentsIds).length === 0 &&
+      courseAndStudentsIds.constructor === Object
+    ) {
+      return await this.prisma.certifications.findMany({
+        include: { student: true, course: true },
+      });
+    }
+
     return await this.prisma.certifications.findMany({
+      where: {
+        AND: [
+          { courseId: +courseAndStudentsIds.course_id },
+          { studentId: { in: courseAndStudentsIds.students_ids } },
+        ],
+      },
       include: { student: true, course: true },
     });
   }

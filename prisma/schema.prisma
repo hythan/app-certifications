@@ -33,9 +33,9 @@ model Courses {
 model Certifications {
   id           Int      @id @default(autoincrement())
   externalCode Int?     @unique
-  course       Courses  @relation(fields: [courseId], references: [id])
+  course       Courses  @relation(fields: [courseId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   courseId     Int
-  student      Students @relation(fields: [studentId], references: [id])
+  student      Students @relation(fields: [studentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   studentId    Int
   teacherName  String
   createAt     DateTime @default(now())

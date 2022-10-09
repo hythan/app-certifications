@@ -16,8 +16,10 @@ export class CertificationsController {
   }
 
   @MessagePattern('find-all-certifications')
-  async findAll() {
-    return await this.certificationsService.findAll();
+  async findAll(@Payload() payload: any) {
+    return await this.certificationsService.findAll(
+      payload.courseAndStudentsIds,
+    );
   }
 
   @MessagePattern('find-certification')
