@@ -74,6 +74,7 @@ export class CertificationsService {
   async findOne(id: number) {
     return await this.prisma.certifications.findUnique({
       where: { id },
+      include: { course: true, student: true },
     });
   }
 
