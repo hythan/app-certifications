@@ -18,10 +18,10 @@ export class StudentsController {
     );
   }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: string) {
-  //   return this.studentsService.findBy({ where: { id: Number(id) } });
-  // }
+  @MessagePattern('get-certifications-student')
+  async findOne(@Payload() data: any) {
+    return this.studentsService.findOne(Number(data.id));
+  }
 
   @MessagePattern('update-certifications-student')
   async update(@Payload() data: any) {
