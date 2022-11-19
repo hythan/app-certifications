@@ -4,7 +4,7 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class StudentsService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async create(data: Prisma.StudentsCreateInput) {
     return await this.prisma.students.create({ data });
@@ -14,9 +14,9 @@ export class StudentsService {
     return this.prisma.students.findMany();
   }
 
-  async findOne(id: number) {
+  async findOne(data: any) {
     return await this.prisma.students.findUnique({
-      where: { externalCode: id },
+      where: { cpf: data.params.cpf },
       include: { certifications: { include: { course: true, student: true } } },
     });
   }

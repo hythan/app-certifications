@@ -20,7 +20,7 @@ export class StudentsController {
 
   @MessagePattern('get-certifications-student')
   async findOne(@Payload() data: any) {
-    return this.studentsService.findOne(Number(data.id));
+    return this.studentsService.findOne(data);
   }
 
   @MessagePattern('update-certifications-student')
