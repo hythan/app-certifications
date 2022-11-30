@@ -28,7 +28,7 @@ export class StudentsService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: any) {
     return this.prisma.students.delete({ where: { externalCode: id } });
   }
 

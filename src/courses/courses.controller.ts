@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Ctx, MessagePattern, Payload } from '@nestjs/microservices';
 import { CoursesService } from './courses.service';
 
 @Controller()
@@ -8,14 +8,15 @@ export class CoursesController {
 
   @MessagePattern('create-certifications-course')
   create(@Payload() payload: any) {
-    return this.coursesService.create(
+    const response = this.coursesService.create(
       this.coursesService._prepareData(payload),
     );
+    return response;
   }
 
   @MessagePattern('find-all-certifications-courses')
   async findAll() {
-    return true;
+    return this.coursesService.findAll();
   }
 
   @MessagePattern('update-certifications-course')

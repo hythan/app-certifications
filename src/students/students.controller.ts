@@ -32,7 +32,7 @@ export class StudentsController {
   }
 
   @MessagePattern('delete-certifications-student')
-  async remove(@Payload() id: number) {
-    return await this.studentsService.remove(+id);
+  async remove(@Payload() payload: any) {
+    return await this.studentsService.remove(payload.id);
   }
 }
