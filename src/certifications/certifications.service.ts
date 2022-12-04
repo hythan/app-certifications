@@ -6,12 +6,12 @@ import { PrismaService } from 'src/prisma.service';
 export class CertificationsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: Prisma.CertificationsCreateInput) {
+  async create(data: Prisma.CertificationsUncheckedCreateInput) {
     const exists = await this.prisma.certifications.count({
       where: {
-        studentId: data.student.connect.externalCode,
+        studentId: data.studentId,
         AND: {
-          courseId: data.course.connect.externalCode,
+          courseId: data.courseId,
         },
       },
     });
@@ -51,7 +51,14 @@ export class CertificationsService {
   }
 
   async findAll(courseAndStudentsIds?: any) {
+    if (!courseAndStudentsIds) {
+      return await this.prisma.certifications.findMany({
+        include: { student: true, course: true },
+      });
+    }
+
     if (
+      courseAndStudentsIds &&
       Object.keys(courseAndStudentsIds).length === 0 &&
       courseAndStudentsIds.constructor === Object
     ) {
@@ -86,9 +93,10 @@ export class CertificationsService {
   }
 
   async remove(id: number) {
-    return await this.prisma.certifications.delete({
+    await this.prisma.certifications.delete({
       where: { id },
     });
+    return 'Successfuly removed!';
   }
 
   _prepareData(payload) {

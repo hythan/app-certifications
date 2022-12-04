@@ -29,7 +29,8 @@ export class StudentsService {
   }
 
   async remove(id: any) {
-    return this.prisma.students.delete({ where: { externalCode: id } });
+    await this.prisma.students.delete({ where: { externalCode: id } });
+    return 'Successfuly removed!';
   }
 
   _prepareData(payload) {
