@@ -20,7 +20,9 @@ export class CertificationsService {
       return { status: 304, statusText: 'The record already exists' };
     }
 
-    return await this.prisma.certifications.create({ data });
+    return await this.prisma.certifications.create({ data }).catch((e) => {
+      return 'Something went wrong';
+    });
   }
 
   async massCreate(data: Array<Prisma.CertificationsCreateManyInput>) {
@@ -43,10 +45,14 @@ export class CertificationsService {
       return { status: 304, message: 'These records already exists' };
     }
 
-    await this.prisma.certifications.createMany({
-      data: response,
-      skipDuplicates: true,
-    });
+    await this.prisma.certifications
+      .createMany({
+        data: response,
+        skipDuplicates: true,
+      })
+      .catch((e) => {
+        return 'Something went wrong!';
+      });
     return { status: 200, message: 'The certifications successfuly created.' };
   }
 
